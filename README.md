@@ -24,10 +24,10 @@ The raycaster can render every block, tile-entity and entity.
 
 ## Requirements
 
-|        |                                                                                                   |
-| ------ | ------------------------------------------------------------------------------------------------- |
-| Server | Paper 26.2 or newer                                                                               |
-| Java   | 25                                                                                                |
+|        |                                                                                                     |
+| ------ | --------------------------------------------------------------------------------------------------- |
+| Server | Paper 26.2 or newer                                                                                 |
+| Java   | 25                                                                                                  |
 | Plugin | [MapGUI](https://github.com/FloG99/MapGUI) **1.1.1 or newer**, which does the rendering and drawing |
 
 ## Installation
@@ -93,9 +93,11 @@ All of these need `mapcamera.admin`.
 ### A Polaroid camera, if you want one
 
 There is an Polaroid camera design in `config.yml`, turned off by default, but you can turn it on additionally or as an alternative.
-It has its own configurable recipe. Set `enabled: true` under `cameras.polaroid` to enable it.
+It has its own configurable recipe and settings. Set `enabled: true` under `cameras.polaroid` to enable it.
 
 ![The instant camera](docs/images/polaroid.png)
+
+Credit for the idea + model: SuperNova258
 
 ## The resource pack
 
@@ -123,6 +125,8 @@ resource-pack:
 ```
 
 **Without a pack**, the camera falls back to a player head and the film to a sheet of paper, so nothing looks too broken.
+
+Film texture and polaroid camera texture by SuperNova258.
 
 ## Building
 
