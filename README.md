@@ -130,4 +130,4 @@ resource-pack:
 
 ## License
 
-LGPL-3.0-or-later.
+LGPL-3.0-or-later. See [`LICENSE`](LICENSE).
