@@ -28,29 +28,25 @@ public final class CameraItems {
 
     private CameraConfig config;
 
-    /** Decides which of an item's two models it is minted with. Only known once {@link PackServer} has started. */
-    private boolean packServed;
-
     public CameraItems(Plugin plugin) {
         this.kind = new NamespacedKey(plugin, "kind");
         this.design = new NamespacedKey(plugin, "design");
     }
 
-    /** Called once the pack has started, and again on every reload. Nothing may be minted before it. */
-    public void update(CameraConfig value, boolean served) {
+    /** Called on startup and again on every reload. Nothing may be minted before it. */
+    public void update(CameraConfig value) {
         this.config = value;
-        this.packServed = served;
     }
 
     /** One of the cameras a server has switched on, carrying which one it is so it behaves as that one. */
     public ItemStack camera(CameraKind camera) {
-        ItemStack stack = grouped(tagged(camera.look().build(1, packServed), CAMERA), camera);
+        ItemStack stack = grouped(tagged(camera.look().build(1), CAMERA), camera);
         stack.editPersistentDataContainer(data -> data.set(design, PersistentDataType.STRING, camera.id()));
         return stack;
     }
 
     public ItemStack film(int amount) {
-        return tagged(config.film().build(amount, packServed), FILM);
+        return tagged(config.film().build(amount), FILM);
     }
 
     /**

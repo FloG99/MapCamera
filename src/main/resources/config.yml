@@ -14,8 +14,9 @@
 # Photographs get the models separately, and always: MapGUI's camera is a server-side renderer with its own
 # assets and cannot see what a client has. That happens on its own, with no setting here.
 #
-# Optional. Every "item-model: auto" below draws this plugin's models where the pack is handed out, and
-# something vanilla already draws where it is not, so nobody is left looking at a missing model.
+# Optional, and optional per player. Every "item-model: auto" below draws something vanilla already has, and
+# the pack swaps this plugin's model in for whoever took it - so a player who declined sees a plain item
+# rather than a missing-texture cube, and nobody has to be kicked to keep the items looking right.
 # ---------------------------------------------------------------------------------------------------------
 resource-pack:
   # A direct link to a copy you host - your website, a CDN, GitHub, a free pack host. Filled in, no port is
@@ -100,9 +101,9 @@ cameras:
     # told apart without the pack.
     head-texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzg0NTYzMWVkNjg5YWNhNTM5YTg1YWNmMTI0ODE4OTBhMzI3ZDU0ZmU4OTI3OGY3NmE0YjhmMDM2NzQ4ZWYwMCJ9fX0="
 
-    # What the item is drawn as. "auto" is this body's own 3D model - "mapcamera:digital" - where the pack
-    # above is handed out, and "minecraft:player_head" where it is not, which renders the head-texture and
-    # needs no pack at all. Empty draws a plain knowledge book; any other model key is used as given.
+    # What the item is drawn as. "auto" draws it as a head, which needs no pack and renders the head-texture
+    # above, and lets the pack put this body's 3D model over it for anyone holding the pack. Empty draws a
+    # plain knowledge book; any other model key is used as given, and is then all that anyone sees.
     item-model: "auto"
 
     recipe:
@@ -151,8 +152,8 @@ cameras:
 # The film item. Whether a photograph costs one is photo.film-required above.
 # ---------------------------------------------------------------------------------------------------------
 film:
-  # The same inert knowledge book the camera is. "auto" draws it as "mapcamera:film" with the pack and as
-  # "minecraft:paper" without one - a vanilla model every client has, and unplaceable either way.
+  # The same inert knowledge book the camera is. "auto" draws it as a sheet of paper, which every client has,
+  # and lets the pack put the film texture over it for anyone holding the pack. Unplaceable either way.
   material: KNOWLEDGE_BOOK
   name: "<white>Instant Film"
   lore:

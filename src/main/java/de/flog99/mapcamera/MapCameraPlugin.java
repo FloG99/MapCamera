@@ -42,7 +42,7 @@ public final class MapCameraPlugin extends JavaPlugin implements Listener {
         pack = new PackServer(this, config.pack());
         pack.start(hash);
 
-        items.update(config, pack.offering());
+        items.update(config);
         recipes.register(config);
         openWhileHeld();
 
@@ -94,7 +94,7 @@ public final class MapCameraPlugin extends JavaPlugin implements Listener {
         pack = new PackServer(this, config.pack());
         pack.start(hash);
 
-        items.update(config, pack.offering());
+        items.update(config);
         recipes.register(config);
         openWhileHeld();
     }
