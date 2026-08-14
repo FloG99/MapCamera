@@ -6,7 +6,7 @@ Hold the camera item in your hand and a viewfinder appears showing you live what
 Press the photo key and receive a real 128x128 map image, which you can hang in an item frame or share with others.
 The raycaster can render every block, tile-entity and entity.
 
-<!-- ![The viewfinder in first person](docs/images/viewfinder.png) -->
+![The viewfinder in first person](docs/images/viewfinder.png)
 
 ## Features
 
@@ -18,9 +18,9 @@ The raycaster can render every block, tile-entity and entity.
 - **3D cameras** Realistic 3D camera models from a resource pack that ships inside the jar. Can be turned off. Without it the items fall back to fitting vanilla models.
 - **Everything is configurable:** recipes, items, costs, cooldowns, sounds, and every line of text a player reads.
 
-<!-- ![A photograph of a photograph of a photograph](docs/images/recursion.png) -->
+![A photograph of a photograph of a photograph](docs/images/recursion.png)
 
-<!-- ![A 2x2 photograph hanging in item frames](docs/images/photographs.png) -->
+![A 2x2 photograph hanging in item frames](docs/images/photographs.png)
 
 ## Requirements
 
@@ -95,7 +95,7 @@ All of these need `mapcamera.admin`.
 There is an Polaroid camera design in `config.yml`, turned off by default, but you can turn it on additionally or as an alternative.
 It has its own configurable recipe. Set `enabled: true` under `cameras.polaroid` to enable it.
 
-<!-- ![The instant camera](docs/images/polaroid.png) -->
+![The instant camera](docs/images/polaroid.png)
 
 ## The resource pack
 
