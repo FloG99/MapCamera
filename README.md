@@ -28,13 +28,13 @@ The raycaster can render every block, tile-entity and entity.
 | ------ | ------------------------------------------------------------------------------------------------- |
 | Server | Paper 26.2 or newer                                                                               |
 | Java   | 25                                                                                                |
-| Plugin | [MapGUI](https://github.com/FloG99/MapGUI) **1.1 or newer**, which does the rendering and drawing |
+| Plugin | [MapGUI](https://github.com/FloG99/MapGUI) **1.1.1 or newer**, which does the rendering and drawing |
 
 ## Installation
 
 Two jars, both straight into `plugins/`.
 
-1. Download **[MapGUI](https://github.com/FloG99/MapGUI/releases)** (1.1 or newer) and drop it into `plugins/`.
+1. Download **[MapGUI](https://github.com/FloG99/MapGUI/releases)** (1.1.1 or newer) and drop it into `plugins/`.
 2. Download **MapCamera** and drop it in beside it.
 3. Start the server.
 
