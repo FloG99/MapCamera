@@ -1,0 +1,23 @@
+build/
+.gradle/
+run/
+
+# The scripts that generate the camera models, textures and map bodies. What they produce is committed,
+# under resourcepack/ and src/main/resources/.
+tools/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+bin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Server logs from the test run directory
+logs/

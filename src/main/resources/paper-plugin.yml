@@ -1,0 +1,23 @@
+name: MapCamera
+version: '${version}'
+main: de.flog99.mapcamera.MapCameraPlugin
+api-version: '${apiVersion}'
+description: A craftable camera whose viewfinder is a map, and whose photographs are maps.
+author: FloG99
+
+dependencies:
+  server:
+    MapGUI:
+      load: BEFORE
+      required: true
+      # Without this the API classes are not visible at runtime and the first screen throws
+      # NoClassDefFoundError. See MapGUI's docs/getting-started.md.
+      join-classpath: true
+
+permissions:
+  mapcamera.use:
+    description: Opens the viewfinder while holding a camera
+    default: true
+  mapcamera.admin:
+    description: /mapcamera give and /mapcamera reload
+    default: op

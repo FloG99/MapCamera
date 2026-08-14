@@ -1,0 +1,277 @@
+# MapCamera
+#
+# Hold the camera and a viewfinder appears in your offhand. Aim with your head, press F to take the
+# photograph, and it comes back as a real map you can hang in an item frame.
+#
+# Run /mapcamera reload after changing anything here. Open viewfinders close when you do.
+
+# ---------------------------------------------------------------------------------------------------------
+# The resource pack that gives the camera its 3D model and the film its own texture.
+#
+# Minecraft only takes a pack from a URL, so it has to be hosted somewhere: either where you host it, or here.
+# A copy to upload is written to plugins/MapCamera/resourcepack.zip on every start.
+#
+# Photographs get the models separately, and always: MapGUI's camera is a server-side renderer with its own
+# assets and cannot see what a client has. That happens on its own, with no setting here.
+#
+# Optional. Every "item-model: auto" below draws this plugin's models where the pack is handed out, and
+# something vanilla already draws where it is not, so nobody is left looking at a missing model.
+# ---------------------------------------------------------------------------------------------------------
+resource-pack:
+  # A direct link to a copy you host - your website, a CDN, GitHub, a free pack host. Filled in, no port is
+  # opened, which is the only route that works on shared hosting. Re-upload that zip whenever this plugin
+  # updates: a client checks the pack against its hash and rejects a stale one outright. Checked at startup.
+  url: ""
+
+  # Or let this plugin serve it, on a machine whose ports you control.
+  serve: true
+  port: 8321
+
+  # What the CLIENT connects to, so it has to be reachable from wherever your players are. "localhost" is
+  # right for a test server on your own machine and wrong for anything else.
+  address: "localhost"
+
+  prompt: "<gold>MapCamera</gold><gray> - models for the camera and film"
+  # Kick players who decline. Off means the pack is optional and they simply see the fallback models.
+  required: false
+
+# ---------------------------------------------------------------------------------------------------------
+# What a photograph costs and what it is.
+#
+# The first three are also each camera's own: write the SAME key under a camera below and that camera wins.
+# A server running one camera never has to.
+# ---------------------------------------------------------------------------------------------------------
+photo:
+  # Whether a photograph costs a film item. On by default, because every photograph spends a map id the world
+  # keeps forever and film is the honest brake on that.
+  film-required: true
+
+  # Seconds between photographs, per player, counted per camera. The brake when film is not required.
+  cooldown-seconds: 3
+
+  # Offer the 2x2 toggle: one press, four maps, 256 pixels square instead of 128, and four film instead of
+  # one. This only OFFERS it - a player still chooses shot by shot and starts on a single map.
+  #
+  # Worth knowing before you leave it on: the cost is map ids, not film. Every printed map takes an id the
+  # world keeps forever and nothing ever reclaims, so a 2x2 spends four of them instead of one.
+  2x2-shots: true
+
+  # What the map is called. Set as the item's name rather than as a custom name, so it reads normally in the
+  # inventory but an item frame does not float it over the wall. Empty leaves the map called "Map".
+  name: "<white>Photograph"
+  # Whether the map's lore records who took it and when. Never where - a photograph is not a set of
+  # coordinates, and it hands them to whoever picks it up.
+  stamp: true
+
+# ---------------------------------------------------------------------------------------------------------
+# The cameras. Each is an item with its own look, its own recipe, its own face on the map, and its own
+# answers to the three settings under "photo:" above.
+#
+# ONE is enabled by default, because every extra camera is another recipe for players to find. Turning a
+# second on works fine - they share the film item and every viewfinder setting, and each opens as its own
+# design.
+#
+# "body" is which design it wears on the map: polaroid or digital. Two cameras may share a body.
+# ---------------------------------------------------------------------------------------------------------
+cameras:
+  # A compact digital camera: graphite, nearly all screen, with its controls in a column down the right.
+  digital:
+    enabled: true
+    body: digital
+
+    # A sheet a shot like every other camera. Set false to make it free, and the cooldown from "photo:"
+    # becomes the only limit on how many map ids a player can spend.
+    film-required: true
+    2x2-shots: true
+
+    # A knowledge book with no recipes in it does nothing when used, is an ingredient in nothing, and - the
+    # reason it is here rather than a player head - is not a block, so right-clicking the ground cannot even
+    # begin to place it. It still looks like a camera: see item-model below.
+    material: KNOWLEDGE_BOOK
+    name: "<aqua>Digital Camera"
+    lore:
+      # %shutter% becomes whatever viewfinder.shutter is set to: "press F", "left-click", "right-click".
+      - "<gray>Hold it up, then %shutter%"
+
+    # A base64 profile value - the "Value" field of any head from minecraft-heads.com. Only drawn by
+    # "item-model: minecraft:player_head", which reads it off the item itself, so it needs no pack.
+    #
+    # Both cameras fall back to this same head. Paste a different value here if you run both and want them
+    # told apart without the pack.
+    head-texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzg0NTYzMWVkNjg5YWNhNTM5YTg1YWNmMTI0ODE4OTBhMzI3ZDU0ZmU4OTI3OGY3NmE0YjhmMDM2NzQ4ZWYwMCJ9fX0="
+
+    # What the item is drawn as. "auto" is this body's own 3D model - "mapcamera:digital" - where the pack
+    # above is handed out, and "minecraft:player_head" where it is not, which renders the head-texture and
+    # needs no pack at all. Empty draws a plain knowledge book; any other model key is used as given.
+    item-model: "auto"
+
+    recipe:
+      enabled: true
+      type: shaped
+      amount: 1
+      shape:
+        - "III"
+        - "GSG"
+        - "IRI"
+      keys:
+        I: IRON_INGOT
+        G: GLASS_PANE
+        S: SPYGLASS
+        R: REDSTONE
+
+  # The instant camera: navy plastic, a cream front panel, and its controls in a bar along the bottom.
+  polaroid:
+    enabled: false
+    body: polaroid
+
+    # A sheet a shot, four for a 2x2, same as the digital.
+    film-required: true
+    2x2-shots: true
+
+    material: KNOWLEDGE_BOOK
+    name: "<gold>Instant Camera"
+    lore:
+      - "<gray>Hold it up, then %shutter%"
+    head-texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzg0NTYzMWVkNjg5YWNhNTM5YTg1YWNmMTI0ODE4OTBhMzI3ZDU0ZmU4OTI3OGY3NmE0YjhmMDM2NzQ4ZWYwMCJ9fX0="
+    item-model: "auto"
+    recipe:
+      enabled: true
+      type: shaped
+      amount: 1
+      shape:
+        - "III"
+        - "ISI"
+        - "IRI"
+      keys:
+        I: IRON_INGOT
+        S: SPYGLASS
+        R: REDSTONE
+
+# ---------------------------------------------------------------------------------------------------------
+# The film item. Whether a photograph costs one is photo.film-required above.
+# ---------------------------------------------------------------------------------------------------------
+film:
+  # The same inert knowledge book the camera is. "auto" draws it as "mapcamera:film" with the pack and as
+  # "minecraft:paper" without one - a vanilla model every client has, and unplaceable either way.
+  material: KNOWLEDGE_BOOK
+  name: "<white>Instant Film"
+  lore:
+    - "<gray>One shot"
+  item-model: "auto"
+  # How many go in one slot, overriding whatever the material above allows - a knowledge book stacks to one in
+  # vanilla, which is no use for something a photograph spends. 1 to 64.
+  max-stack-size: 64
+
+# ---------------------------------------------------------------------------------------------------------
+# The screen and the lens.
+# ---------------------------------------------------------------------------------------------------------
+viewfinder:
+  # How many pixels square each live preview frame is. Costs render time and bandwidth for every player
+  # holding a camera, so it is the number to turn down on a busy server. 96 pixels at 5fps is about 45 KB/s
+  # per holder.
+  #
+  # The frame RATE is not here. It is MapGUI's camera.live.max-fps, against a main-thread budget it divides
+  # between every live view on the server - so ten people holding cameras cost what one does, each at a share
+  # of the rate. A second fps setting here would be the same limit written twice.
+  size: 96
+
+  # What takes the photograph: swap-hands, left-click or right-click.
+  #
+  # swap-hands is the default and the considered answer. Both cursor axes come off the player's head, so it
+  # is the only one of the three that cannot move the camera as it fires. The caption names the default F
+  # bind, since what a player actually bound it to never reaches the server.
+  #
+  # left-click also plays the arm swing. The client starts that before the server hears the click, so the map
+  # visibly drops and springs back on every shot and nothing can suppress it.
+  #
+  # right-click has no arm swing, but it is also the button that works the marks on the map. Hold sneak and a
+  # click works the marks; let go and it takes the photo. Either way, never both.
+  shutter: swap-hands
+
+  # These apply to the preview and the photograph alike, so what you line up is what you get.
+  fov: 70
+  # Blocks to trace, or 0 to follow each viewer's own render distance.
+  max-distance: 0
+  entities: true
+  clouds: true
+  fog: true
+
+  # Sneak and scroll to zoom. Each step divides the field of view above, so 2 is twice the magnification and
+  # 0.5 is half - a wide angle that fits more in. Same pixels over a different cone either way, so neither
+  # direction costs anything to render.
+  #
+  # Two ladders, because the two directions want opposite things. Pointed outward you are reaching for
+  # something far off, so that one climbs. Turned around, the lens is already at arm's length and the problem
+  # is fitting a face and some of what is behind it in, so that one mostly widens.
+  #
+  # Turning the lens round puts the zoom back to 1, since the ladders do not line up step for step.
+  #
+  # Both are sorted for you, and 1 is added if you leave it out, because that is where the camera opens.
+  # Anything at or below 0 is dropped. Set either to [1] to switch that direction's zooming off.
+  zoom-steps: [1, 1.5, 2, 3, 4, 6]
+  selfie-zoom-steps: [0.5, 0.65, 0.8, 1, 1.25, 1.5, 2]
+
+# ---------------------------------------------------------------------------------------------------------
+# Crafting. Each camera's recipe lives with that camera above; only the film's is here, because there is one
+# film whatever cameras a server has switched on.
+#
+# Any recipe can be "shaped" with a shape and keys, or "shapeless" with a list of ingredients. A material
+# that does not exist, or a shape using a key nothing defines, turns that one recipe off with a warning at
+# startup naming the line to fix.
+#
+# A shapeless ingredient may name how many of it the recipe wants - "PAPER 2" rather than PAPER written twice.
+# Nine items is the whole grid and as many as one can ask for.
+# ---------------------------------------------------------------------------------------------------------
+recipes:
+  # Puts the recipes in a player's recipe book when they join, so they can be found without being told.
+  auto-discover: true
+
+  film:
+    enabled: true
+    type: shapeless
+    # How many the recipe yields. One, so a photograph costs a craft - raise it if film should be cheap.
+    amount: 1
+    ingredients:
+      - PAPER
+      - INK_SAC
+      # - PAPER 2   # two of something, rather than the line written twice
+
+# ---------------------------------------------------------------------------------------------------------
+# What the camera sounds like. Each is a list, played together, written as "key volume pitch" - any sound
+# the server knows, including one your own resource pack adds. An empty list is silence.
+# ---------------------------------------------------------------------------------------------------------
+sounds:
+  # On the press.
+  shutter:
+    - "minecraft:ui.button.click 0.9 1.0"
+    - "minecraft:block.wooden_button.click_on 0.9 0.9"
+  # When the print lands in the player's inventory.
+  printed:
+    - "minecraft:entity.item_frame.add_item 0.8 0.9"
+    - "minecraft:entity.item_pickup 0.6 1.0"
+
+# ---------------------------------------------------------------------------------------------------------
+# Everything a player reads on the viewfinder. Plain text, not MiniMessage: it is painted onto a 128 pixel
+# map by the map font, which has no colours and does not wrap - so keep these short. print-failed is the one
+# exception, since it goes to chat.
+# ---------------------------------------------------------------------------------------------------------
+messages:
+  out-of-film: "Out of film"
+  need-film: "Need %film% film"
+  no-textures: "No textures yet"
+  loading-textures: "Loading textures"
+  exposure-failed: "Exposure failed"
+  # %zoom% is the magnification, without a trailing ".0" on a whole number.
+  zoom: "%zoom%x"
+  # Hovering the shutter release while sneaking. %shutter% is "Press F", "Left-click" or "Right-click".
+  shutter-hint: "%shutter% for photo"
+  lens-around: "Turn the lens around"
+  lens-forward: "Turn the lens forward"
+  # Hovering the 2x2 mark: what pressing it switches TO. The -free pair is used by a camera with
+  # film-required: false.
+  2x2: "2x2 - costs 4 film"
+  1x1: "1x1 - costs 1 film"
+  2x2-free: "2x2 - 4 maps"
+  1x1-free: "1x1 - 1 map"
+  # In chat, and the only MiniMessage line here.
+  print-failed: "<red>That photograph could not be printed onto a map."
