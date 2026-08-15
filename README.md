@@ -38,7 +38,7 @@ Two jars, both straight into `plugins/`.
 2. Download **MapCamera** and drop it in beside it.
 3. Start the server.
 
-Minecraft's own textures - blocks, mobs, items, paintings, the sun and the moon - are not ours to ship, so MapGUI downloads them from Mojang once and keeps them.
+Minecraft's own textures are not ours to ship, so MapGUI downloads them from Mojang once and keeps them.
 If your host allows no outbound connections, set `camera.assets.download: false` in MapGUI's config and drop your own client jar into `plugins/MapGUI/assets/` instead.
 
 ## Controls
